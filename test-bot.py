@@ -13,5 +13,8 @@ async def on_message(message):
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello')
+    elif message.content=="go away":
+        await message.channel.send("Goodbye") 
+        await client.close()
 
-client.run('token')
+client.run('NjU3MDM0MzU1NTYyMjUwMjQx.XpI2bg.eY5lJ1K1OoLNpPrwVh_hpxu-p6A') 
