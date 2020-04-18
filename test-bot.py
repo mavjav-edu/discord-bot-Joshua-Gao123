@@ -1,6 +1,18 @@
+from cryptography.fernet import Fernet
+
 import discord 
+import re
 
 client = discord.Client()
+
+@staticmethod
+def set_timer(message):
+    # $timer 1 echo
+    # The above will repeat the word 'echo' in one minute
+    minutes = re.search("\d+", message)
+    echo = re.search("")
+    print("You asked me to say "+)
+
 
 @client.event
 async def on_ready():
@@ -13,8 +25,13 @@ async def on_message(message):
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello')
-    elif message.content=="go away":
+    elif message.content=="$go away":
         await message.channel.send("Goodbye") 
         await client.close()
+    elif message.content.startswith('$timer'):
+        set_timer(message.content)
 
-client.run('NjU3MDM0MzU1NTYyMjUwMjQx.XpI2bg.eY5lJ1K1OoLNpPrwVh_hpxu-p6A') 
+token=open("token","rb")
+key=open("key","rb")
+fk = Fernet(key.read())
+client.run(fk.decrypt(token.read()))
