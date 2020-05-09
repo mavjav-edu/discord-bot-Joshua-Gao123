@@ -1,17 +1,20 @@
 from cryptography.fernet import Fernet
 
-import discord 
-import re
+import discord, sys, threading, re
+from time import sleep
 
 client = discord.Client()
 
 @staticmethod
-def set_timer(message):
-    # $timer 1 echo
-    # The above will repeat the word 'echo' in one minute
-    minutes = re.search("\d+", message)
-    echo = re.search("")
-    print("You asked me to say "+)
+def repeat(message):
+    ''' 
+    py:function: set_timer(message)
+    py:summary: User invokes command like `$timer DD ECHO_STRING`
+    where DD is the number of minutes
+    and ECHO_STRING is the sentence to repeat
+    :param str message: contains the whole command 
+    '''
+    print("You asked me to tell you "+ message)
 
 
 @client.event
@@ -29,7 +32,9 @@ async def on_message(message):
         await message.channel.send("Goodbye") 
         await client.close()
     elif message.content.startswith('$timer'):
-        set_timer(message.content)
+        pattern = re.compile('^\$timer\s*(\d+)\s*(.*)$')
+        matches = re.match(pattern,message.content)
+        timer = threading.Timer(matches[1], repeat, args=matches[2])
 
 token=open("token","rb")
 key=open("key","rb")
